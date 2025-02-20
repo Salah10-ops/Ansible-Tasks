@@ -1,0 +1,39 @@
+---
+- name: Configure the Docker
+  hosts: docker
+  become: yes
+
+  tasks:
+
+    -  name: Docker Installation
+       apt:
+         name: "{{ item }}"
+         state: present
+         update_cache: yes
+       loop:
+           -  docker.io
+           -  docker-compose
+
+
+    -  name: Docker start
+       systemd:
+         name: docker
+         state: started
+         enabled: yes
+
+    - name: Run Redis container using Docker
+      docker_container:
+        name: redis
+        image: redis
+        state: started
+        restart_policy: always
+        exposed_ports:
+          - "6379"
+    - name: Verify Redis container is running
+      shell: docker ps | grep redis
+      register: redis_running
+      changed_when: false
+
+    - name: Show Docker container status
+      debug:
+        msg: "Redis container is running: {{ redis_running.stdout }}"

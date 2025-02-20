@@ -1,0 +1,52 @@
+---
+- name: frontend configuration
+  hosts: frontend
+  become: yes
+
+  tasks:
+    - name: NGINX installation
+      apt:
+        name: nginx
+        state: present
+      when: ansible_facts["distribution"] == "Ubuntu"
+      notify: Restart NGINX
+
+
+    - name: installing vim, curl, and git using loop
+      apt:
+        name: "{{ item }}"
+        state: present
+
+      loop:
+          -  vim
+          -  curl
+          -  git
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: creating a simple HTML file
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+              <html>
+                <head><title>Hello from Front End Server</title></head>
+                <body><h1>NGINX is the boss</h1></body>
+              </html>
+      notify: restart NGINX
+
+    - name: Check system memory
+      shell: free -m | grep Mem | awk '{print $2}'
+      register: total_memory
+      changed_when: false
+
+    - name: frontend memory size not bigger than 1GB RAM
+      fail:
+        msg: "The playbook will be FAILED as the target machine has less than 1GB RAM"
+      when: total_memory.stdout | int < 1024
+
+
+
+  handlers:
+    - name: Restart NGINX
+      systemd:
+        name: nginx
+        state: restarted
