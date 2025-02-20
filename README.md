@@ -39,9 +39,17 @@ Before proceeding, ensure the following prerequisites are met:
 On your Control Machine (the machine from which Ansible will run), generate an SSH key pair.
 
 
+<<<<<<< HEAD
+=======
+chmod 600 ~/.ssh/ansible_key
+
+>>>>>>> 565c44495ce8486ad90ab6e5ec0ac4c0661e7b2b
 ---
 
+
 ## Step 3:  Copying the public key to the others
+
+### public key to the others and access
 
 Then opened the ansible_key.pub from the directory and copied the public key and then added them to the authorized_keys file in the other two machines.
 
