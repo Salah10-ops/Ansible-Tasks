@@ -36,12 +36,9 @@ Before proceeding, ensure the following prerequisites are met:
 
 ### Generate SSH Keys on the Control Machine:
 
-On your Control Machine (the machine from which Ansible will run), generate an SSH key pair by running the following command:
+On your Control Machine (the machine from which Ansible will run), generate an SSH key pair.
 
-```bash
-ssh-keygen -t rsa -b 2048 -f ~/.ssh/ansible_key
 
-chmod 600 ~/.ssh/ansible_key
 ---
 
 ## Step 3:  Copying the public key to the others
@@ -50,17 +47,20 @@ Then opened the ansible_key.pub from the directory and copied the public key and
 
 This allows passwordless SSH login from the Control Machine to the Frontend and Docker machines
 
-on the other machines i run the permissions commands to allow access:
-
-```bash
-chmod 700 ~/.ssh
-chmod 600 ~/.ssh/authorized_keys
-
 After creating the Inventory.ini file 
 
 Then i run the below command to access them and it worked successfully:
 
 ```bash
 
+# On your Control Machine (the machine from which Ansible will run), generate an SSH key pair by running the following command:
+
+ssh-keygen -t rsa -b 2048 -f ~/.ssh/ansible_key
+chmod 600 ~/.ssh/ansible_key
 ansible all -i /home/ubuntu/ansible_project/inventory.ini -m ping
+
+# On the other machines i run the permissions commands to allow access:
+
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
 
