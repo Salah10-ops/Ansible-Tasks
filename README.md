@@ -38,6 +38,8 @@ Before proceeding, ensure the following prerequisites are met:
 
 On your Control Machine (the machine from which Ansible will run), generate an SSH key pair.
 
+---
+
 ## Step 3:  Copying the public key to the others
 
 ### public key to the others and access
