@@ -42,9 +42,13 @@ On your Control Machine (the machine from which Ansible will run), generate an S
 ssh-keygen -t rsa -b 2048 -f ~/.ssh/ansible_key
 
 chmod 600 ~/.ssh/ansible_key
+
 ---
 
+
 ## Step 3:  Copying the public key to the others
+
+### public key to the others and access
 
 Then opened the ansible_key.pub from the directory and copied the public key and then added them to the authorized_keys file in the other two machines.
 
